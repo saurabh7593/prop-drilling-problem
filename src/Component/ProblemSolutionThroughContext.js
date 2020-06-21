@@ -1,4 +1,4 @@
-import React, {Component, useContext, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {NameContext} from "../Provider/ContextProvider";
 
 const ProblemSolutionThroughContext = () => {
@@ -11,38 +11,51 @@ const ProblemSolutionThroughContext = () => {
 
     return (
         <React.Fragment>
-            <SecondComponent/>
+            <FirstLevelComponent />
         </React.Fragment>
     );
 
 };
 
-export const SecondComponent = () => {
+export const FirstLevelComponent = () => {
     return (
-        <ThirdComponent/>
+        <SecondLevelComponent />
     )
 };
 
+export const SecondLevelComponent = () => {
+    const { name, company } = useContext(NameContext);
+    const [nameValue, setNameValue] = name;
+    const [companyValue, setCompanyValue] = company;
 
-export const ThirdComponent = () => {
-    const [name, setName] = useContext(NameContext);
     const [changedName, setChangedName] = useState('');
+    const [changedCompany, setChangedCompany] = useState('');
 
-    let changeMyName = (e) => {
-        setName(changedName)
+    let changeValue = () =>{
+        setNameValue(changedName);
+        setCompanyValue(changedCompany);
     };
+
     return (
-        <div>
-            <p> Hi I use Context {name} </p>
+        <>
+            <p> My Name is {nameValue} </p>
+            <p> I Work in {companyValue} </p>
+            <br />
+
             <form>
-                <label name="name" > Name : </label>
+                <label> Name : </label>
                 <input type="text"
-                       value = {changedName}
+                       value={changedName}
                        onChange={e => setChangedName(e.target.value)}/>
+
+                 <label > Company : </label>
+                <input type="text"
+                       value={changedCompany}
+                       onChange={e => setChangedCompany(e.target.value)}/>
             </form>
             <br/>
-            <button onClick={changeMyName}> Click me to change name</button>
-        </div>
+            <button onClick={changeValue}> Click me to change name</button>
+        </>
     )
 };
 

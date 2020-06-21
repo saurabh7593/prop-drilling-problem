@@ -1,34 +1,36 @@
-import React, {Component} from 'react';
+import React, { useState } from 'react';
 
-class Problem extends Component {
-    state = {
-        name : "Context First"
-    };
+const Problem = () => {
+    const [name] = useState('Saurabh');
+    const [company] = useState('Axis');
 
-    render() {
-        return (
-            <React.Fragment>
-                <SecondComponent someValue = {this.state.name}/>
-            </React.Fragment>
-        );
-    }
-
-}
-
-export const SecondComponent = ( props ) => {
     return (
-        <ThirdComponent someValue = {props.someValue}/>
+        <React.Fragment>
+            <FirstLevelComponent
+                name={name}
+                company= {company}
+            />
+        </React.Fragment>
+    );
+
+};
+
+export const FirstLevelComponent = (props) => {
+    return (
+        <SecondLevelComponent
+            name={props.name}
+            company={props.company}
+        />
     )
 };
 
-
-export const ThirdComponent = ( props ) => {
+export const SecondLevelComponent = (props) => {
     return (
-        <div>
-            <p> Hi I use Context {props.someValue} </p>
-        </div>
+        <>
+            <p> My Name is {props.name} </p>
+            <p> I Work in {props.company} </p>
+        </>
     )
-
 };
 
 export default Problem;
